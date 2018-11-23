@@ -2,8 +2,12 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Shilin He'
 
-from utils import data_loader as data_loader
-from models import log_clustering as cluster
+import sys
+sys.path.append('../utils')
+sys.path.append('../models')
+
+import data_loader as data_loader
+import log_clustering as cluster
 
 para={
 'path':'../../Data/BGL_data/', # directory for input data

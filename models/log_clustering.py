@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Shilin He'
 
+import sys
+sys.path.append('../utils')
+
 import numpy as np
 import math
 from scipy.special import expit
@@ -9,7 +12,7 @@ from numpy import linalg as LA
 from scipy.cluster.hierarchy import linkage
 from scipy.cluster.hierarchy import fcluster
 from scipy.spatial.distance import pdist
-import utils.evaluation as ev
+import evaluation as ev
 
 
 def weighting(raw_data):
