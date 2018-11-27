@@ -1,0 +1,37 @@
+import pandas as pd
+import re
+
+with open('../data/hdfs_log/HDFS.log') as f:
+    data = f.read().splitlines()
+
+# constructing relations
+relations = []
+for i, line in enumerate(data):
+    matchObj = re.search('blk_(|-)[0-9]+', line)
+    relations.append(matchObj.group())
+
+blockid_set = set(relations)
+blockid_list = list(blockid_set)
+
+df = pd.DataFrame({'block_id':blockid_list})
+for i in range(1, 46):
+    df[i] = 0
+
+#df.set_index('block_id')
+
+print(df)
+for i in range(1, 46):
+    print('################template ' + str(i) + ' ##################')
+    template_path = '../data/results/template' + str(i) + '.txt'
+    with open(template_path) as f:
+        template = f.read().splitlines()
+    for line in template:
+        line_num = int(line.split()[0])
+        block_id = relations[line_num]
+        block = blockid_list.index(block_id)
+        df.ix[block, i] += 1
+
+df = df.reindex_axis(sorted(df.columns), axis=1)
+df['block_id'] = df['block_id'].apply(lambda s: '%%'+s)
+print(df)
+df.to_csv('output.txt', sep = ' ', header=None, index=None)
